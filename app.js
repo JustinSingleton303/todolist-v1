@@ -5,15 +5,37 @@ const bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
 
-app.use('view engine', 'ejs');
+app.set("view engine", "ejs");
+
+var dayOfWeek = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday"
+];
+
+function getDay(inDay){
+  var tDay = "";
+  var n = dayOfWeek.length;
+  for(var i = 0; i < n; i++){
+    if(inDay === i){
+      tDay = dayOfWeek[i];
+    }
+  }return tDay;
+}
+
+
 
 app.get('/', (req, res)=>{
   var today = new Date();
-  if(today.getDay() === 6 || today.getDay() === 0){
-    res.send("Party on, weekend peeps!!");
-  }else{
-    res.send("Time to get up and go to work...");
-  }
+  var dayNum = today.getDay();
+  var day = getDay(dayNum);
+
+    res.render("list", {whatDay: day});
+
 })
 
 app.listen(port, ()=>{
