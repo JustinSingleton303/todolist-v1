@@ -6,7 +6,8 @@ const app = express();
 const port = 3000;
 
 app.set("view engine", "ejs");
-
+/* this array works with the getDay() function
+   defined in this file                       */
 var dayOfWeek = [
   "Sunday",
   "Monday",
@@ -34,7 +35,16 @@ app.get('/', (req, res)=>{
   var dayNum = today.getDay();
   var day = getDay(dayNum);
 
-    res.render("list", {whatDay: day});
+
+  var options = {
+    weekday: 'long',
+    day: 'numeric',
+    year: 'numeric',
+    month: 'long'
+  }
+  var aDay = today.toLocaleDateString("en-US", options);
+
+    res.render("list", {whatDay: aDay});
 
 })
 
