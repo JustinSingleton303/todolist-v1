@@ -8,6 +8,7 @@ var inText = [];
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.static("public"));
 /* this array works with the getDay() function
    defined in this file                       */
 var dayOfWeek = [
@@ -30,13 +31,10 @@ function getDay(inDay){
   }return tDay;
 }
 
-
-
 app.get('/', (req, res)=>{
   var today = new Date();
   var dayNum = today.getDay();
   var day = getDay(dayNum);
-
 
   var options = {
     weekday: 'long',
