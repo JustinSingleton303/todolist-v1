@@ -4,8 +4,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
+var inText = [];
 
 app.set("view engine", "ejs");
+app.use(bodyParser.urlencoded({extended: true}));
 /* this array works with the getDay() function
    defined in this file                       */
 var dayOfWeek = [
@@ -44,10 +46,17 @@ app.get('/', (req, res)=>{
   }
   var aDay = today.toLocaleDateString("en-US", options);
 
-    res.render("list", {whatDay: aDay});
+    res.render("list", {whatDay: aDay, newListItems: inText});
 
-})
+});
+
+app.post("/", (req, res)=>{
+  var a = req.body.newItem;
+  inText.push(a);
+  res.redirect("/");
+
+});
 
 app.listen(port, ()=>{
   console.log("Running on port 3000, press ^C to exit");
-})
+});
