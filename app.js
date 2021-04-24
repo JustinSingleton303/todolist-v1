@@ -3,6 +3,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
+const date = require(__dirname + "/date.js");
 const port = 3000;
 var inText = [];
 var workItems = [];
@@ -33,26 +34,22 @@ function getDay(inDay){
 }
 
 app.get('/', (req, res)=>{
-  var today = new Date();
-  var dayNum = today.getDay();
-  var day = getDay(dayNum);
 
-  var options = {
-    weekday: 'long',
-    day: 'numeric',
-    year: 'numeric',
-    month: 'long'
-  }
-  var aDay = today.toLocaleDateString("en-US", options);
-
+    let aDay = date();
     res.render("list", {listTitle: aDay, newListItems: inText});
 
 });
 
 app.post("/", (req, res)=>{
+
   var a = req.body.newItem;
-  inText.push(a);
-  res.redirect("/");
+  if(req.body.list === "Work"){
+    workItems.push(a);
+    res.redirect("/work");
+  }else{
+    inText.push(a);
+    res.redirect("/");
+  }
 
 });
 
